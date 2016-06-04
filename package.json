@@ -50,7 +50,7 @@
     "shelljs": "latest",
     "view-helpers": "latest",
     "bower": "latest",
-    "forever": "latest"
+    "gulp": "latest"
   },
   "devDependencies": {
     "babel-core": "^6.7.2",
