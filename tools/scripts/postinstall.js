@@ -68,10 +68,6 @@ shell.exec('bower update', function(code) {
   console.log('    Updating Bower dependencies');
 });
 
-shell.exec('gulp build', function(code) {
-  console.log('    Building with gulp');
-});
-
 packagesNpmInstall('packages/contrib');
 packagesNpmInstall('packages/custom');
 packagesNpmInstall('packages/core');
