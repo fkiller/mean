@@ -50,6 +50,7 @@
     "shelljs": "latest",
     "view-helpers": "latest",
     "bower": "latest",
+    "require-dir": "latest",
     "gulp": "latest"
   },
   "devDependencies": {
