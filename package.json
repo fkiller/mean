@@ -49,9 +49,7 @@
     "request": "latest",
     "shelljs": "latest",
     "view-helpers": "latest",
-    "bower": "latest",
-    "require-dir": "latest",
-    "gulp": "latest"
+    "bower": "latest"
   },
   "devDependencies": {
     "babel-core": "^6.7.2",
