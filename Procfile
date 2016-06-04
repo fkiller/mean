@@ -1,1 +1,1 @@
-web: ./node_modules/.bin/gulp build
+web: node server.js
