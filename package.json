@@ -49,6 +49,7 @@
     "request": "latest",
     "shelljs": "latest",
     "view-helpers": "latest",
+    "gulp": "latest",
     "bower": "latest"
   },
   "devDependencies": {
