@@ -63,7 +63,7 @@
     "gulp-uglify": "^1.0.1",
     "gulp-usemin": "^0.3.8",
     "gulp-util": "^3.0.1",
-    "assemble": "git://github.com/assemble/assemble#v0.6.0",
+    "assemble": "git://github.com/assemble/assemble",
     "marked": "^0.3.2"
     },
   "devDependencies": {
