@@ -1,101 +1,67 @@
+/* globals require */
 'use strict';
 
 /**
  * Module dependencies.
  */
-var express = require('express'),
-    mongoStore = require('connect-mongo')(express),
-    flash = require('connect-flash'),
-    helpers = require('view-helpers'),
-    config = require('./config');
+var mean = require('meanio'),
+  compression = require('compression'),
+  consolidate = require('consolidate'),
+  express = require('express'),
+  helpers = require('view-helpers'),
+  flash = require('connect-flash'),
+  modRewrite = require('connect-modrewrite'),
+  // seo = require('mean-seo'),
+  config = mean.getConfig(),
+  bodyParser = require('body-parser');
 
-module.exports = function(app, passport, db) {
-    app.set('showStackError', true);
+module.exports = function(app, db) {
 
-    // Prettify HTML
-    app.locals.pretty = true;
+  app.use(bodyParser.json(config.bodyParser.json));
+  app.use(bodyParser.urlencoded(config.bodyParser.urlencoded));
 
-    // Should be placed before express.static
-    // To ensure that all assets and data are compressed (utilize bandwidth)
-    app.use(express.compress({
-        filter: function(req, res) {
-            return (/json|text|javascript|css/).test(res.getHeader('Content-Type'));
-        },
-        // Levels are specified in a range of 0 to 9, where-as 0 is
-        // no compression and 9 is best compression, but slowest
-        level: 9
-    }));
+  app.set('showStackError', true);
 
-    // Only use logger for development environment
-    if (process.env.NODE_ENV === 'development') {
-        app.use(express.logger('dev'));
-    }
+  // Prettify HTML
+  app.locals.pretty = true;
 
-    // Set views path, template engine and default layout
-    app.set('views', config.root + '/app/views');
-    app.set('view engine', 'jade');
+  // cache=memory or swig dies in NODE_ENV=production
+  app.locals.cache = 'memory';
 
-    // Enable jsonp
-    app.enable("jsonp callback");
+  // Should be placed before express.static
+  // To ensure that all assets and data are compressed (utilize bandwidth)
+  app.use(compression({
+    // Levels are specified in a range of 0 to 9, where-as 0 is
+    // no compression and 9 is best compression, but slowest
+    level: 9
+  }));
 
-    app.configure(function() {
-        // The cookieParser should be above session
-        app.use(express.cookieParser());
+  // Enable compression on bower_components
+  app.use('/bower_components', express.static(config.root + '/bower_components'));
 
-        // Request body parsing middleware should be above methodOverride
-        app.use(express.urlencoded());
-        app.use(express.json());
-        app.use(express.methodOverride());
+  app.use('/bundle', express.static(config.root + '/bundle'));
 
-        // Express/Mongo session storage
-        app.use(express.session({
-            secret: config.sessionSecret,
-            store: new mongoStore({
-                db: db.connection.db,
-                collection: config.sessionCollection
-            })
-        }));
+  // Adds logging based on logging config in config/env/ entry
+  require('./middlewares/logging')(app, config.logging);
 
-        // Dynamic helpers
-        app.use(helpers(config.app.name));
+  // assign the template engine to .html files
+  app.engine('html', consolidate[config.templateEngine]);
 
-        // Use passport session
-        app.use(passport.initialize());
-        app.use(passport.session());
+  // set .html as the default extension
+  app.set('view engine', 'html');
 
-        // Connect flash for flash messages
-        app.use(flash());
 
-        // Routes should be at the last
-        app.use(app.router);
-        
-        // Setting the fav icon and static folder
-        app.use(express.favicon());
-        app.use(express.static(config.root + '/public'));
+  // Dynamic helpers
+  app.use(helpers(config.app.name));
 
-        // Assume "not found" in the error msgs is a 404. this is somewhat
-        // silly, but valid, you can do whatever you like, set properties,
-        // use instanceof etc.
-        app.use(function(err, req, res, next) {
-            // Treat as 404
-            if (~err.message.indexOf('not found')) return next();
+  // Connect flash for flash messages
+  app.use(flash());
 
-            // Log it
-            console.error(err.stack);
+  app.use(modRewrite([
+    
+    '!^/api/.*|\\_getModules|\\.html|\\.js|\\.css|\\.swf|\\.jp(e?)g|\\.png|\\.ico|\\.gif|\\.svg|\\.eot|\\.ttf|\\.woff|\\.txt|\\.pdf$ / [L]'    
 
-            // Error page
-            res.status(500).render('500', {
-                error: err.stack
-            });
-        });
+  ]));
 
-        // Assume 404 since no middleware responded
-        app.use(function(req, res, next) {
-            res.status(404).render('404', {
-                url: req.originalUrl,
-                error: 'Not found'
-            });
-        });
-
-    });
+  // app.use(seo());
 };
