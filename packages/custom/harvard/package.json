@@ -1,0 +1,16 @@
+{
+  "name": "harvard",
+  "version": "0.0.1",
+  "description": "Assignment",
+  "author": {
+    "name": "Won Dong"
+  },
+  "mean": "0.6.1",
+  "dependencies": {
+    "underscore": "*"
+  },
+  "license": "MIT",
+  "scripts": {
+    "postinstall" : "bower install"
+  }
+}

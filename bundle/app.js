@@ -99,7 +99,7 @@
 	
 	    var req = __webpack_require__(29);
 	    req.keys().map(req);
-	    req = __webpack_require__(42);
+	    req = __webpack_require__(48);
 	    req.keys().map(req);
 	
 	    angular.module('mean', packageModules);
@@ -60260,12 +60260,16 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var map = {
-		"./custom/meanStarter/public/controllers/header.js": 30,
-		"./custom/meanStarter/public/controllers/index.js": 31,
-		"./custom/meanStarter/public/controllers/starter.js": 32,
-		"./custom/meanStarter/public/index.js": 33,
-		"./custom/meanStarter/public/routes/system.js": 40,
-		"./custom/meanStarter/public/routes/users.js": 41
+		"./custom/harvard/public/controllers/harvard.js": 30,
+		"./custom/harvard/public/index.js": 31,
+		"./custom/harvard/public/routes/harvard.js": 34,
+		"./custom/harvard/public/services/harvard.js": 35,
+		"./custom/meanStarter/public/controllers/header.js": 36,
+		"./custom/meanStarter/public/controllers/index.js": 37,
+		"./custom/meanStarter/public/controllers/starter.js": 38,
+		"./custom/meanStarter/public/index.js": 39,
+		"./custom/meanStarter/public/routes/system.js": 46,
+		"./custom/meanStarter/public/routes/users.js": 47
 	};
 	function webpackContext(req) {
 		return __webpack_require__(webpackContextResolve(req));
@@ -60283,6 +60287,141 @@
 
 /***/ },
 /* 30 */
+/***/ function(module, exports) {
+
+	'use strict';
+	
+	(function () {
+	    'use strict';
+	
+	    /* jshint -W098 */
+	
+	    function HarvardController($scope, Global, Harvard, $stateParams) {
+	        $scope.global = Global;
+	        $scope.package = {
+	            name: 'harvard'
+	        };
+	
+	        $scope.checkCircle = function () {
+	            Harvard.checkCircle($stateParams.circle).then(function (response) {
+	                $scope.res = response;
+	                $scope.resStatus = 'info';
+	            }, function (error) {
+	                $scope.res = error;
+	                $scope.resStatus = 'danger';
+	            });
+	        };
+	    }
+	
+	    angular.module('mean.harvard').controller('HarvardController', HarvardController);
+	
+	    HarvardController.$inject = ['$scope', 'Global', 'Harvard', '$stateParams'];
+	})();
+
+/***/ },
+/* 31 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	__webpack_require__(32);
+
+/***/ },
+/* 32 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// style-loader: Adds some css to the DOM by adding a <style> tag
+	
+	// load the styles
+	var content = __webpack_require__(33);
+	if(typeof content === 'string') content = [[module.id, content, '']];
+	// add the styles to the DOM
+	var update = __webpack_require__(4)(content, {});
+	if(content.locals) module.exports = content.locals;
+	// Hot Module Replacement
+	if(false) {
+		// When the styles change, update the <style> tags
+		if(!content.locals) {
+			module.hot.accept("!!./../../../../../../node_modules/css-loader/index.js!./harvard.css", function() {
+				var newContent = require("!!./../../../../../../node_modules/css-loader/index.js!./harvard.css");
+				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+				update(newContent);
+			});
+		}
+		// When the module is disposed, remove the <style> tags
+		module.hot.dispose(function() { update(); });
+	}
+
+/***/ },
+/* 33 */
+/***/ function(module, exports, __webpack_require__) {
+
+	exports = module.exports = __webpack_require__(3)();
+	// imports
+	
+	
+	// module
+	exports.push([module.id, ".harvard-example span {\n    font-weight: bold;\n}\n", ""]);
+	
+	// exports
+
+
+/***/ },
+/* 34 */
+/***/ function(module, exports) {
+
+	'use strict';
+	
+	(function () {
+	    'use strict';
+	
+	    function Harvard($stateProvider) {
+	        $stateProvider.state('harvard example page', {
+	            url: '/harvard/example',
+	            templateUrl: 'harvard/views/index.html'
+	        }).state('harvard circles example', {
+	            url: '/harvard/example/:circle',
+	            templateUrl: 'harvard/views/example.html'
+	        });
+	    }
+	
+	    angular.module('mean.harvard').config(Harvard);
+	
+	    Harvard.$inject = ['$stateProvider'];
+	})();
+
+/***/ },
+/* 35 */
+/***/ function(module, exports) {
+
+	'use strict';
+	
+	(function () {
+	    'use strict';
+	
+	    function Harvard($http, $q) {
+	        return {
+	            name: 'harvard',
+	            checkCircle: function checkCircle(circle) {
+	                var deferred = $q.defer();
+	
+	                $http.get('/api/harvard/example/' + circle).success(function (response) {
+	                    deferred.resolve(response);
+	                }).error(function (response) {
+	                    deferred.reject(response);
+	                });
+	                return deferred.promise;
+	            }
+	        };
+	    }
+	
+	    angular.module('mean.harvard').factory('Harvard', Harvard);
+	
+	    Harvard.$inject = ['$http', '$q'];
+	})();
+
+/***/ },
+/* 36 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -60344,7 +60483,7 @@
 	}]);
 
 /***/ },
-/* 31 */
+/* 37 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -60405,7 +60544,7 @@
 	}]);
 
 /***/ },
-/* 32 */
+/* 38 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -60427,25 +60566,25 @@
 	})();
 
 /***/ },
-/* 33 */
+/* 39 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
-	__webpack_require__(34);
+	__webpack_require__(40);
 	
-	__webpack_require__(36);
+	__webpack_require__(42);
 	
-	__webpack_require__(38);
+	__webpack_require__(44);
 
 /***/ },
-/* 34 */
+/* 40 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 	
 	// load the styles
-	var content = __webpack_require__(35);
+	var content = __webpack_require__(41);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(4)(content, {});
@@ -60465,7 +60604,7 @@
 	}
 
 /***/ },
-/* 35 */
+/* 41 */
 /***/ function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(3)();
@@ -60479,13 +60618,13 @@
 
 
 /***/ },
-/* 36 */
+/* 42 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 	
 	// load the styles
-	var content = __webpack_require__(37);
+	var content = __webpack_require__(43);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(4)(content, {});
@@ -60505,7 +60644,7 @@
 	}
 
 /***/ },
-/* 37 */
+/* 43 */
 /***/ function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(3)();
@@ -60519,13 +60658,13 @@
 
 
 /***/ },
-/* 38 */
+/* 44 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 	
 	// load the styles
-	var content = __webpack_require__(39);
+	var content = __webpack_require__(45);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(4)(content, {});
@@ -60545,7 +60684,7 @@
 	}
 
 /***/ },
-/* 39 */
+/* 45 */
 /***/ function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(3)();
@@ -60559,7 +60698,7 @@
 
 
 /***/ },
-/* 40 */
+/* 46 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -60583,7 +60722,7 @@
 	}]);
 
 /***/ },
-/* 41 */
+/* 47 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -60633,37 +60772,37 @@
 	}]);
 
 /***/ },
-/* 42 */
+/* 48 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var map = {
-		"./meanio-admin/public/controllers/admin.js": 43,
-		"./meanio-admin/public/controllers/example.js": 44,
-		"./meanio-admin/public/controllers/modules.js": 45,
-		"./meanio-admin/public/controllers/settings.js": 46,
-		"./meanio-admin/public/controllers/themes.js": 47,
-		"./meanio-admin/public/controllers/users.js": 48,
-		"./meanio-admin/public/directives/editable.js": 49,
-		"./meanio-admin/public/index.js": 50,
-		"./meanio-admin/public/routes/admin.js": 55,
-		"./meanio-admin/public/services/module-settings.js": 56,
-		"./meanio-admin/public/services/modules.js": 57,
-		"./meanio-admin/public/services/settings.js": 58,
-		"./meanio-admin/public/services/users.js": 59,
-		"./meanio-circles/public/controllers/circles.js": 60,
-		"./meanio-circles/public/index.js": 61,
-		"./meanio-circles/public/routes/circles.js": 64,
-		"./meanio-circles/public/services/circles.js": 65,
-		"./meanio-system/public/routes/system.js": 66,
-		"./meanio-system/public/services/config.js": 67,
-		"./meanio-system/public/services/global.js": 68,
-		"./meanio-system/public/services/interceptor.js": 69,
-		"./meanio-system/public/services/menus.js": 70,
-		"./meanio-system/public/system.js": 71,
-		"./meanio-users/public/controllers/meanUser.js": 72,
-		"./meanio-users/public/index.js": 73,
-		"./meanio-users/public/routes/auth.js": 74,
-		"./meanio-users/public/services/meanUser.js": 75
+		"./meanio-admin/public/controllers/admin.js": 49,
+		"./meanio-admin/public/controllers/example.js": 50,
+		"./meanio-admin/public/controllers/modules.js": 51,
+		"./meanio-admin/public/controllers/settings.js": 52,
+		"./meanio-admin/public/controllers/themes.js": 53,
+		"./meanio-admin/public/controllers/users.js": 54,
+		"./meanio-admin/public/directives/editable.js": 55,
+		"./meanio-admin/public/index.js": 56,
+		"./meanio-admin/public/routes/admin.js": 61,
+		"./meanio-admin/public/services/module-settings.js": 62,
+		"./meanio-admin/public/services/modules.js": 63,
+		"./meanio-admin/public/services/settings.js": 64,
+		"./meanio-admin/public/services/users.js": 65,
+		"./meanio-circles/public/controllers/circles.js": 66,
+		"./meanio-circles/public/index.js": 67,
+		"./meanio-circles/public/routes/circles.js": 70,
+		"./meanio-circles/public/services/circles.js": 71,
+		"./meanio-system/public/routes/system.js": 72,
+		"./meanio-system/public/services/config.js": 73,
+		"./meanio-system/public/services/global.js": 74,
+		"./meanio-system/public/services/interceptor.js": 75,
+		"./meanio-system/public/services/menus.js": 76,
+		"./meanio-system/public/system.js": 77,
+		"./meanio-users/public/controllers/meanUser.js": 78,
+		"./meanio-users/public/index.js": 79,
+		"./meanio-users/public/routes/auth.js": 80,
+		"./meanio-users/public/services/meanUser.js": 81
 	};
 	function webpackContext(req) {
 		return __webpack_require__(webpackContextResolve(req));
@@ -60676,11 +60815,11 @@
 	};
 	webpackContext.resolve = webpackContextResolve;
 	module.exports = webpackContext;
-	webpackContext.id = 42;
+	webpackContext.id = 48;
 
 
 /***/ },
-/* 43 */
+/* 49 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -60724,7 +60863,7 @@
 
 
 /***/ },
-/* 44 */
+/* 50 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -60750,7 +60889,7 @@
 	]);
 
 /***/ },
-/* 45 */
+/* 51 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -60774,7 +60913,7 @@
 	]);
 
 /***/ },
-/* 46 */
+/* 52 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -60874,7 +61013,7 @@
 
 
 /***/ },
-/* 47 */
+/* 53 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -60931,7 +61070,7 @@
 
 
 /***/ },
-/* 48 */
+/* 54 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -61042,7 +61181,7 @@
 
 
 /***/ },
-/* 49 */
+/* 55 */
 /***/ function(module, exports) {
 
 	angular.module('mean.admin').directive('ngEnter', function() {
@@ -61126,24 +61265,24 @@
 
 
 /***/ },
-/* 50 */
+/* 56 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
-	__webpack_require__(51);
-	window.ZeroClipboard = __webpack_require__(53);
-	__webpack_require__(54);
+	__webpack_require__(57);
+	window.ZeroClipboard = __webpack_require__(59);
+	__webpack_require__(60);
 
 
 /***/ },
-/* 51 */
+/* 57 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 	
 	// load the styles
-	var content = __webpack_require__(52);
+	var content = __webpack_require__(58);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(4)(content, {});
@@ -61163,7 +61302,7 @@
 	}
 
 /***/ },
-/* 52 */
+/* 58 */
 /***/ function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(3)();
@@ -61177,7 +61316,7 @@
 
 
 /***/ },
-/* 53 */
+/* 59 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/*!
@@ -63763,14 +63902,14 @@
 	}());
 
 /***/ },
-/* 54 */
+/* 60 */
 /***/ function(module, exports) {
 
 	/*! ng-clip 16-12-2014 */
 	!function(a,b){"use strict";b.module("ngClipboard",[]).provider("ngClip",function(){var a=this;return this.path="//cdnjs.cloudflare.com/ajax/libs/zeroclipboard/2.1.6/ZeroClipboard.swf",{setPath:function(b){a.path=b},setConfig:function(b){a.config=b},$get:function(){return{path:a.path,config:a.config}}}}).run(["ngClip",function(a){var c={swfPath:a.path,trustedDomains:["*"],allowScriptAccess:"always",forceHandCursor:!0};ZeroClipboard.config(b.extend(c,a.config||{}))}]).directive("clipCopy",["ngClip",function(){return{scope:{clipCopy:"&",clipClick:"&",clipClickFallback:"&"},restrict:"A",link:function(a,c,d){if(ZeroClipboard.isFlashUnusable())return void c.bind("click",function(b){a.$apply(a.clipClickFallback({$event:b,copy:a.$eval(a.clipCopy)}))});var e=new ZeroClipboard(c);""===d.clipCopy&&(a.clipCopy=function(){return c[0].previousElementSibling.innerText}),e.on("ready",function(){e.on("copy",function(b){var c=b.clipboardData;c.setData(d.clipCopyMimeType||"text/plain",a.$eval(a.clipCopy))}),e.on("aftercopy",function(){b.isDefined(d.clipClick)&&a.$apply(a.clipClick)}),a.$on("$destroy",function(){e.destroy()})})}}}])}(window,window.angular);
 
 /***/ },
-/* 55 */
+/* 61 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -63816,7 +63955,7 @@
 	  ]);
 
 /***/ },
-/* 56 */
+/* 62 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -63861,7 +64000,7 @@
 	]);
 
 /***/ },
-/* 57 */
+/* 63 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -63879,7 +64018,7 @@
 	]);
 
 /***/ },
-/* 58 */
+/* 64 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -63917,7 +64056,7 @@
 
 
 /***/ },
-/* 59 */
+/* 65 */
 /***/ function(module, exports) {
 
 	//Users service used for users REST endpoint
@@ -63935,7 +64074,7 @@
 
 
 /***/ },
-/* 60 */
+/* 66 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -63968,21 +64107,21 @@
 
 
 /***/ },
-/* 61 */
+/* 67 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
-	__webpack_require__(62);
+	__webpack_require__(68);
 
 /***/ },
-/* 62 */
+/* 68 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 	
 	// load the styles
-	var content = __webpack_require__(63);
+	var content = __webpack_require__(69);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(4)(content, {});
@@ -64002,7 +64141,7 @@
 	}
 
 /***/ },
-/* 63 */
+/* 69 */
 /***/ function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(3)();
@@ -64016,7 +64155,7 @@
 
 
 /***/ },
-/* 64 */
+/* 70 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -64070,7 +64209,7 @@
 
 
 /***/ },
-/* 65 */
+/* 71 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -64100,7 +64239,7 @@
 
 
 /***/ },
-/* 66 */
+/* 72 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -64153,7 +64292,7 @@
 
 
 /***/ },
-/* 67 */
+/* 73 */
 /***/ function(module, exports) {
 
 	angular.module('mean.system').provider('$meanConfig', [function() {
@@ -64182,7 +64321,7 @@
 
 
 /***/ },
-/* 68 */
+/* 74 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -64306,7 +64445,7 @@
 
 
 /***/ },
-/* 69 */
+/* 75 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -64344,7 +64483,7 @@
 
 
 /***/ },
-/* 70 */
+/* 76 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -64360,7 +64499,7 @@
 
 
 /***/ },
-/* 71 */
+/* 77 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -64381,7 +64520,7 @@
 
 
 /***/ },
-/* 72 */
+/* 78 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -64499,7 +64638,7 @@
 	  ]);
 
 /***/ },
-/* 73 */
+/* 79 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -64507,7 +64646,7 @@
 	__webpack_require__(26);
 
 /***/ },
-/* 74 */
+/* 80 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -64526,7 +64665,7 @@
 
 
 /***/ },
-/* 75 */
+/* 81 */
 /***/ function(module, exports) {
 
 	'use strict';
